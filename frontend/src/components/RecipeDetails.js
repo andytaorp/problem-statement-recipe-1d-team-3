@@ -1,10 +1,10 @@
-import {useWorkoutsContext} from '../hooks/useWorkoutsContext';
+import {useRecipesContext} from '../hooks/useRecipesContext';
 import { useAuthContext } from '../hooks/useAuthContext';
 
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-function WorkoutDetails({workout}) {
-    const {dispatch} = useWorkoutsContext();
+function RecipeDetails({recipe}) {
+    const {dispatch} = useRecipesContext();
     const {user} = useAuthContext();
 
     const handleClick = async() => {
@@ -12,7 +12,7 @@ function WorkoutDetails({workout}) {
             return;
         }
 
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/workouts/${workout._id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/workouts/${recipe._id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
@@ -27,8 +27,8 @@ function WorkoutDetails({workout}) {
 
     return(
         <div className="workout-details">
-            <h4>{workout.title}</h4>
-            <p><strong>Load (kg):</strong>{workout.load}</p>
+            <h4>{recipe.title}</h4>
+            <p><strong>Load (kg):</strong>{recipe.load}</p>
             <p><strong>Reps:</strong>{workout.reps}</p>
             <p>{formatDistanceToNow(new Date(workout.createdAt), {addSuffix: true})}</p>
             <span className='material-symbols-outlined' onClick={handleClick}>delete</span>
