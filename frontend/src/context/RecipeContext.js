@@ -12,6 +12,15 @@ export const RecipesReducer = (state, action) => {
       return {
         recipes: [action.payload, ...state.recipes]
       }
+    case 'UPDATE_RECIPE':
+      return {
+        ...state,
+        recipes: state.recipes.map((recipe) => 
+          recipe._id === action.payload._id ? action.payload : recipe
+        )
+      };
+      
+
     case 'DELETE_RECIPE':
       return {
         recipes: state.recipes.filter((w) => w._id !== action.payload._id)
@@ -23,7 +32,7 @@ export const RecipesReducer = (state, action) => {
 
 export const RecipesContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(RecipesReducer, {
-    recipes: null
+    recipes: []
   })
 
   return (
