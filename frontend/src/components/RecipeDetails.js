@@ -11,13 +11,11 @@ const RecipeDetails = ({ recipe }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [updatedRecipe, setUpdatedRecipe] = useState({
     name: recipe.name,
-    ingredients: recipe.ingredients,
+    ingredients: recipe.ingredients.join(", "),  // Convert ingredients array to string
     instructions: recipe.instructions,
     prepTime: recipe.prepTime,
     difficulty: recipe.difficulty,
   });
-
-  console.log("Rendering RecipeDetails for", recipe.name);
 
   const handleUpdate = async () => {
     if (!user) return;
@@ -40,8 +38,6 @@ const RecipeDetails = ({ recipe }) => {
       dispatch({ type: "UPDATE_RECIPE", payload: json });
       setUpdatedRecipe(json);
       setIsEditing(false);
-
-      window.location.reload();
     } catch (error) {
       console.error("Error updating recipe:", error);
     }
@@ -58,14 +54,7 @@ const RecipeDetails = ({ recipe }) => {
         }
       });
 
-      let json;
-      try {
-        json = await response.json();
-      } catch (error) {
-        console.error("Failed to parse JSON response:", error);
-        return;
-      }
-
+      const json = await response.json();
       if (response.ok) {
         dispatch({ type: 'DELETE_RECIPE', payload: { _id: recipe._id } });
       } else {

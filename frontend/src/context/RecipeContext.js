@@ -8,6 +8,11 @@ const recipesReducer = (state, action) => {
       return {
         recipes: action.payload,
       };
+    case 'CREATE_RECIPE':
+      return {
+        recipes: [...state.recipes, action.payload], // Adds the new recipe to the list
+      };
+
     case 'UPDATE_RECIPE':
       return {
         recipes: state.recipes.map((recipe) =>

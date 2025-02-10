@@ -6,8 +6,8 @@ function RecipeForm() {
   const { dispatch } = useRecipesContext();
   const { user } = useAuthContext();
 
-  const [name, setName] = useState(""); // Changed from recipeName to match backend
-  const [ingredients, setIngredients] = useState(""); // Will be converted to array
+  const [name, setName] = useState("");
+  const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
   const [prepTime, setPrepTime] = useState("");
   const [difficulty, setDifficulty] = useState("");
@@ -28,11 +28,11 @@ function RecipeForm() {
     }
 
     const recipe = {
-      name, // Matches backend field
-      ingredients: ingredients.split(",").map((item) => item.trim()), // Convert to array
+      name,
+      ingredients: ingredients.split(",").map((item) => item.trim()),
       instructions,
-      prepTime: Number(prepTime), // Ensure it's a number
-      difficulty: difficulty.toLowerCase(), // Convert to lowercase for backend match
+      prepTime: Number(prepTime),
+      difficulty: difficulty.toLowerCase(),
     };
 
     try {
@@ -46,10 +46,7 @@ function RecipeForm() {
       });
 
       const json = await response.json();
-      console.log("Server Response:", json);
-
       if (!response.ok) {
-        console.log("Empty Fields:", json.emptyFields);
         setError(json.error || "An error occurred. Please try again.");
         setEmptyFields(json.emptyFields || []);
         return;
@@ -63,11 +60,9 @@ function RecipeForm() {
       setDifficulty("");
       setError(null);
       setEmptyFields([]);
-      
-      console.log("New recipe added", json);
+
       dispatch({ type: "CREATE_RECIPE", payload: json });
     } catch (error) {
-      console.error("Error submitting recipe:", error);
       setError("Failed to submit. Please try again later.");
     }
   };
@@ -75,7 +70,7 @@ function RecipeForm() {
   return (
     <form className="create" onSubmit={handleSubmit}>
       <h3>Add a New Recipe</h3>
-      
+
       <label>Recipe Name:</label>
       <input
         type="text"
@@ -117,8 +112,7 @@ function RecipeForm() {
         <option value="Medium">Medium</option>
         <option value="Hard">Hard</option>
       </select>
-      <br></br>
-      <br></br>
+
       <button>Add Recipe</button>
       {error && <div className="error">{error}</div>}
     </form>
