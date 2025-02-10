@@ -19,7 +19,7 @@ const RecipeDetails = ({ recipe }) => {
 
   const handleUpdate = async () => {
     if (!user) return;
-
+  
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${recipe._id}`, {
         method: "PATCH",
@@ -29,19 +29,21 @@ const RecipeDetails = ({ recipe }) => {
         },
         body: JSON.stringify(updatedRecipe),
       });
-
+  
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
+  
       const json = await response.json();
-      dispatch({ type: "UPDATE_RECIPE", payload: json });
-      setUpdatedRecipe(json);
+      dispatch({ type: "UPDATE_RECIPE", payload: json });  // Update state without reloading
+  
+      setUpdatedRecipe(json);  // Update the state to reflect changes
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating recipe:", error);
     }
   };
+  
 
   const handleDelete = async () => {
     if (!user) return;
