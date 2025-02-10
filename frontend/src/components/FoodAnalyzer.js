@@ -2,38 +2,54 @@ import { useState } from "react";
 
 function FoodAnalyzer() {
   const [image, setImage] = useState(null);
-  const [foodData, setFoodData] = useState(null);
+  const [nutritionData, setNutritionData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const API_USER_TOKEN = "1629ac1e19db2585a06365d8ddf2f3d6540913e7";
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+  const handleFileChange = (event) => {
+    setImage(event.target.files[0]);
   };
 
-  const handleUpload = async () => {
+  const analyzeFood = async () => {
     if (!image) {
-      setError("Please select an image.");
+      alert("Please upload an image first.");
       return;
     }
 
     setLoading(true);
-    setError(null);
-
-    const formData = new FormData();
-    formData.append("image", image);
+    setNutritionData(null);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/foodAnalysis/analyze`, {
+      const formData = new FormData();
+      formData.append("image", image);
+
+      const response = await fetch("https://api.logmeal.com/v2/image/segmentation/complete", {
         method: "POST",
+        headers: { Authorization: `Bearer ${API_USER_TOKEN}` },
         body: formData,
       });
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Failed to analyze image.");
+      const result = await response.json();
+      if (!result.imageId) {
+        throw new Error("Failed to analyze the image.");
+      }
 
-      setFoodData(data.foodItems);
-    } catch (err) {
-      setError(err.message);
+      const nutritionResponse = await fetch("https://api.logmeal.com/v2/recipe/nutritionalInfo", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${API_USER_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ imageId: result.imageId }),
+      });
+
+      const nutritionResult = await nutritionResponse.json();
+
+      setNutritionData(nutritionResult);
+      
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Failed to analyze food. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -41,23 +57,36 @@ function FoodAnalyzer() {
 
   return (
     <div className="food-analyzer">
-      <h2>Analyze Your Dish</h2>
-      <input type="file" accept="image/*" onChange={handleImageChange} />
-      <button onClick={handleUpload} disabled={loading}>
-        {loading ? "Analyzing..." : "Upload & Analyze"}
+      <h2>Food Analyzer</h2>
+      
+      <input type="file" accept="image/*" onChange={handleFileChange} />
+      <button onClick={analyzeFood} disabled={loading}>
+        {loading ? "Analyzing..." : "Analyze Food"}
       </button>
 
-      {error && <p className="error">{error}</p>}
+      {/* Display Nutritional Information */}
+      {nutritionData && (
+        <div className="nutrition-info">
+          <h3>Nutrition Information</h3>
+          <p><strong>Calories:</strong> {nutritionData.nutritional_info?.calories || "N/A"} kcal</p>
+          <p><strong>Serving Size:</strong> {nutritionData.nutritional_info?.serving_size || "N/A"} g</p>
 
-      {foodData && (
-        <div className="results">
-          <h3>Detected Food Items</h3>
+          <h4>Detected Food Items:</h4>
           <ul>
-            {foodData.map((item, index) => (
-              <li key={index}>
-                <strong>{item.name}</strong> - {item.calories} kcal
-              </li>
-            ))}
+            {nutritionData.foodName?.map((food, index) => (
+              <li key={index}>{food}</li>
+            )) || <p>No food items detected.</p>}
+          </ul>
+
+          <h4>Daily Intake Reference:</h4>
+          <ul>
+            {nutritionData.nutritional_info?.dailyIntakeReference
+              ? Object.entries(nutritionData.nutritional_info.dailyIntakeReference).map(([key, value]) => (
+                  <li key={key}>
+                    <strong>{value.label}:</strong> {value.percent.toFixed(2)}% ({value.level})
+                  </li>
+                ))
+              : <p>No daily intake data available.</p>}
           </ul>
         </div>
       )}
