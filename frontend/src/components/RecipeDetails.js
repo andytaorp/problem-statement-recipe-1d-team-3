@@ -37,17 +37,17 @@ const RecipeDetails = ({ recipe }) => {
       }
   
       const json = await response.json();
-
       dispatch({ type: "UPDATE_RECIPE", payload: json });
-  
       setUpdatedRecipe(json);
-  
       setIsEditing(false);
+  
+      window.location.reload();
     } catch (error) {
       console.error("Error updating recipe:", error);
     }
-  };  
+  };
   
+
   const handleDelete = async () => {
     if (!user) return;
 
@@ -78,9 +78,9 @@ const RecipeDetails = ({ recipe }) => {
   };
 
   return (
-    <div className="workout-details">
+    <div className="recipe-card">
       {isEditing ? (
-        <div>
+        <div className="recipe-content">
           <p><strong>Name</strong></p>
           <input
             type="text"
@@ -118,30 +118,34 @@ const RecipeDetails = ({ recipe }) => {
             <option value="Hard">Hard</option>
           </select>
 
-          <div style={{marginTop: 10, display: 'flex', gap: 10}}>
+          <div style={{ marginTop: 10, display: 'flex', gap: 10 }}>
             <button onClick={() => setIsEditing(false)}>Cancel</button>
             <button onClick={handleUpdate}>Save</button>
           </div>
         </div>
       ) : (
-        <div>
+        <div className="recipe-content">
           <h4>{recipe.name}</h4>
-          <p><strong>Ingredients: </strong>{recipe.ingredients}</p>
+          <p><strong>Ingredients:</strong></p>
+          <ul>
+            {recipe.ingredients.map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
+            ))}
+          </ul>
+
           <p><strong>Cooking Instructions: </strong>{recipe.instructions}</p>
           <p><strong>Preparation Time: </strong>{recipe.prepTime}</p>
           <p><strong>Difficulty Level: </strong>{recipe.difficulty}</p>
           <p>{formatDistanceToNow(new Date(recipe.createdAt), { addSuffix: true })}</p>
-          <div style={{display: 'flex', gap: 10}}>
-            <button style={{}} onClick={() => setIsEditing(true)}>Edit</button>
+
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button onClick={() => setIsEditing(true)}>Edit</button>
             <button onClick={handleDelete}>Delete</button>
           </div>
-          
         </div>
       )}
     </div>
   );
 };
-
-
 
 export default RecipeDetails;
