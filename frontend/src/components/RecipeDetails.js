@@ -21,7 +21,7 @@ const RecipeDetails = ({ recipe }) => {
 
   const handleUpdate = async () => {
     if (!user) return;
-  
+
     try {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${recipe._id}`, {
         method: "PATCH",
@@ -31,22 +31,21 @@ const RecipeDetails = ({ recipe }) => {
         },
         body: JSON.stringify(updatedRecipe),
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const json = await response.json();
       dispatch({ type: "UPDATE_RECIPE", payload: json });
       setUpdatedRecipe(json);
       setIsEditing(false);
-  
+
       window.location.reload();
     } catch (error) {
       console.error("Error updating recipe:", error);
     }
   };
-  
 
   const handleDelete = async () => {
     if (!user) return;
@@ -74,6 +73,30 @@ const RecipeDetails = ({ recipe }) => {
       }
     } catch (error) {
       console.error("Error deleting recipe:", error);
+    }
+  };
+
+  const handleToggleFavorite = async () => {
+    if (!user) return;
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${recipe._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user.token}`
+        },
+        body: JSON.stringify({ isFavorite: !recipe.isFavorite }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const json = await response.json();
+      dispatch({ type: "TOGGLE_FAVORITE", payload: json });
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
     }
   };
 
@@ -141,6 +164,9 @@ const RecipeDetails = ({ recipe }) => {
           <div style={{ display: 'flex', gap: 10 }}>
             <button onClick={() => setIsEditing(true)}>Edit</button>
             <button onClick={handleDelete}>Delete</button>
+            <button onClick={handleToggleFavorite}>
+              {recipe.isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+            </button>
           </div>
         </div>
       )}

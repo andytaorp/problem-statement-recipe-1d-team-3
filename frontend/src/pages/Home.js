@@ -29,15 +29,20 @@ const Home = () => {
     }
   }, [dispatch, user])
 
-  // Function to filter recipes by difficulty and name
+  // Function to filter recipes by difficulty, favorites, and name
   const filteredRecipes = () => {
     if (!recipes) return []
 
     let filtered = recipes
 
     // Filter by difficulty
-    if (filter) {
+    if (filter && filter !== 'favorites') {
       filtered = filtered.filter(recipe => recipe.difficulty.toLowerCase() === filter)
+    }
+
+    // Filter by favorites
+    if (filter === 'favorites') {
+      filtered = filtered.filter(recipe => recipe.isFavorite)
     }
 
     // Filter by name (search query)
@@ -52,40 +57,48 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="filters">
-        <button
-          onClick={() => setFilter('easy')}
-          className={filter === 'easy' ? 'active' : ''}
-        >
-          Show Easy
-        </button>
-        <button
-          onClick={() => setFilter('medium')}
-          className={filter === 'medium' ? 'active' : ''}
-        >
-          Show Medium
-        </button>
-        <button
-          onClick={() => setFilter('hard')}
-          className={filter === 'hard' ? 'active' : ''}
-        >
-          Show Hard
-        </button>
-        <button
-          onClick={() => setFilter(null)}
-          className={filter === null ? 'active' : ''}
-        >
-          Show All
-        </button>
-      </div>
+      <div className="filters-search-container">
+        <div className="filters">
+          <button
+            onClick={() => setFilter('easy')}
+            className={filter === 'easy' ? 'active' : ''}
+          >
+            Show Easy
+          </button>
+          <button
+            onClick={() => setFilter('medium')}
+            className={filter === 'medium' ? 'active' : ''}
+          >
+            Show Medium
+          </button>
+          <button
+            onClick={() => setFilter('hard')}
+            className={filter === 'hard' ? 'active' : ''}
+          >
+            Show Hard
+          </button>
+          <button
+            onClick={() => setFilter(null)}
+            className={filter === null ? 'active' : ''}
+          >
+            Show All
+          </button>
+          <button
+            onClick={() => setFilter('favorites')}
+            className={filter === 'favorites' ? 'active' : ''}
+          >
+            Show Favorites
+          </button>
+        </div>
 
-      <div className="search">
-        <input
-          type="text"
-          placeholder="Search by recipe name..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+        <div className="search">
+          <input
+            type="text"
+            placeholder="Search by recipe name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
       </div>
 
       <br />
