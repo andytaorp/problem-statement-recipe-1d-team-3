@@ -9,7 +9,8 @@ import RecipeDetails from '../components/RecipeDetails'
 const Home = () => {
   const { recipes, dispatch } = useRecipesContext()
   const { user } = useAuthContext()
-  const [filter, setFilter] = useState(null) // Filter state
+  const [filter, setFilter] = useState(null) // Difficulty filter state
+  const [searchQuery, setSearchQuery] = useState('') // Search query state
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -28,14 +29,25 @@ const Home = () => {
     }
   }, [dispatch, user])
 
-  // Function to filter recipes
+  // Function to filter recipes by difficulty and name
   const filteredRecipes = () => {
     if (!recipes) return []
 
+    let filtered = recipes
+
+    // Filter by difficulty
     if (filter) {
-      return recipes.filter(recipe => recipe.difficulty.toLowerCase() === filter)
+      filtered = filtered.filter(recipe => recipe.difficulty.toLowerCase() === filter)
     }
-    return recipes
+
+    // Filter by name (search query)
+    if (searchQuery) {
+      filtered = filtered.filter(recipe =>
+        recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    }
+
+    return filtered
   }
 
   return (
@@ -65,6 +77,15 @@ const Home = () => {
         >
           Show All
         </button>
+      </div>
+
+      <div className="search">
+        <input
+          type="text"
+          placeholder="Search by recipe name..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </div>
 
       <br />
