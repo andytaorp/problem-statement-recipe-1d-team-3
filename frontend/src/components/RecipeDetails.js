@@ -27,14 +27,21 @@ const RecipeDetails = ({ recipe }) => {
   }
 
   return (
-    <div className="workout-details">
-      <h4>{recipe.title}</h4>
-      <p><strong>Load (kg): </strong>{recipe.load}</p>
-      <p><strong>Reps: </strong>{recipe.reps}</p>
-      <p>{formatDistanceToNow(new Date(recipe.createdAt), { addSuffix: true })}</p>
-      <span className="material-symbols-outlined" onClick={handleClick}>delete</span>
+    <div className="recipe-details">
+      <h4>{recipe.recipeName}</h4>
+      <p><strong>Ingredients:</strong> {recipe.ingredients}</p>
+      <p><strong>Instructions:</strong> {recipe.instructions}</p>
+      <p><strong>Prep Time:</strong> {recipe.prepTime} minutes</p>
+      <p><strong>Difficulty:</strong> {recipe.difficulty}</p>
+      <p><em>Added {formatDistanceToNow(new Date(recipe.createdAt), { addSuffix: true })}</em></p>
+  
+      {user && (
+        <button className="delete-btn" onClick={handleClick}>
+          Delete Recipe
+        </button>
+      )}
     </div>
-  )
+  );
 }
 
 export default RecipeDetails
