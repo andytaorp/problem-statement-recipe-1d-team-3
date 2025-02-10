@@ -1,0 +1,344 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&display=swap');
+
+/* Layout */
+:root {
+  --primary: #16a085; /* Refined green */
+  --secondary: #2c3e50; /* Darker gray for contrast */
+  --error: #e74c3c;
+  --background: #f8f9fa;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+}
+
+body {
+  background: var(--background);
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  color: var(--secondary);
+}
+
+header {
+  background: #fff;
+  box-shadow: 0px 4px 10px var(--card-shadow);
+}
+
+header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header a {
+  color: var(--secondary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.pages {
+  max-width: 1200px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+/* Homepage */
+.home {
+  display: grid;
+  grid-template-columns: 3fr 1fr; /* You can adjust this if needed */
+  gap: 20px; /* Reduced gap between columns */
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+/* Recipe Cards */
+.recipe-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px 0;
+  box-shadow: 0 4px 8px var(--card-shadow);
+  transition: transform 0.2s;
+}
+
+.recipe-card:hover {
+  transform: scale(1.02);
+}
+
+.recipe-card h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.3em;
+  color: var(--primary);
+}
+
+.recipe-card p {
+  margin: 5px 0;
+  font-size: 1em;
+  color: var(--secondary);
+}
+
+/* Form on Right Side */
+.recipe-form {
+  position: sticky;
+  top: 20px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px var(--card-shadow);
+}
+
+label, input {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+button {
+  background: var(--primary);
+  border: none;
+  color: #fff;
+  padding: 12px;
+  font-family: "Poppins", sans-serif;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #13856b;
+}
+
+/* Navbar */
+nav {
+  display: flex;
+  align-items: center;
+}
+
+nav a {
+  margin-left: 10px;
+  font-weight: 500;
+}
+
+nav button {
+  background: #fff;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  font-size: 1em;
+  margin-left: 10px;
+  transition: all 0.3s;
+}
+
+nav button:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.recipe-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  position: relative;
+}
+
+.recipe-card:hover {
+  transform: scale(1.02);
+}
+
+.recipe-content h4 {
+  margin-bottom: 10px;
+  font-size: 1.4em;
+  color: #1aac83;
+}
+
+.recipe-content p {
+  font-size: 1em;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.recipe-time {
+  font-size: 0.9em;
+  color: #777;
+}
+
+.delete-btn {
+  background: #e7195a;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.delete-btn:hover {
+  background: #c91548;
+}
+
+/* Nutrition Card */
+.nutrition-info {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  position: relative;
+}
+
+.nutrition-info h3 {
+  font-size: 1.6em;
+  color: var(--primary);
+  margin-bottom: 15px;
+}
+
+.nutrition-info p,
+.nutrition-info li {
+  font-size: 1em;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.nutrition-info ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.nutrition-info li strong {
+  font-weight: bold;
+}
+
+.nutrition-info h4 {
+  font-size: 1.3em;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.nutrition-info li {
+  font-size: 1.1em;
+  color: #777;
+}
+
+.nutrition-info .food-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.nutrition-info .food-item {
+  background: #f0f0f0;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9em;
+  color: #333;
+}
+
+.nutrition-info .food-item:first-child {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.nutrition-info button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: var(--error);
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.nutrition-info button:hover {
+  background-color: #c0392b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nutrition-info {
+    padding: 15px;
+  }
+
+  .nutrition-info h3 {
+    font-size: 1.4em;
+  }
+
+  .nutrition-info p,
+  .nutrition-info li {
+    font-size: 0.9em;
+  }
+
+  .nutrition-info h4 {
+    font-size: 1.1em;
+  }
+}
+
+/* Filter Section */
+.filters {
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+  margin-bottom: 15px; /* Reduced space between filter and cards */
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.filters button {
+  background: #fff;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  padding: 10px 20px;
+  font-size: 1em;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 100px; /* Set a minimum width to avoid button shrinking */
+  text-align: center;
+}
+
+.filters button:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.filters button.active {
+  background: var(--primary);
+  color: #fff;
+  border: 2px solid var(--primary);
+}
+
+.filters button:focus {
+  outline: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .filters {
+    justify-content: space-between;
+  }
+
+  .filters button {
+    min-width: 80px; /* Adjust the minimum width for smaller screens */
+    margin-bottom: 10px; /* Add some space between buttons on small screens */
+  }
+}
