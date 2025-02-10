@@ -113,11 +113,12 @@ function RecipeForm() {
         className={emptyFields.includes("difficulty") ? "error" : ""}
       >
         <option value="">Select Difficulty</option>
-        <option value="easy">Easy</option>
-        <option value="medium">Medium</option>
-        <option value="hard">Hard</option>
+        <option value="Easy">Easy</option>
+        <option value="Medium">Medium</option>
+        <option value="Hard">Hard</option>
       </select>
-
+      <br></br>
+      <br></br>
       <button>Add Recipe</button>
       {error && <div className="error">{error}</div>}
     </form>

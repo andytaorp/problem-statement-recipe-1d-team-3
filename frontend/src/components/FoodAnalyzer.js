@@ -45,7 +45,12 @@ function FoodAnalyzer() {
 
       const nutritionResult = await nutritionResponse.json();
 
-      setNutritionData(nutritionResult);
+      const uniqueFoods = [...new Set(nutritionResult.foodName?.map(item => item.toLowerCase()))];
+
+      setNutritionData({
+        ...nutritionResult,
+        foodName: uniqueFoods.map(item => item.charAt(0).toUpperCase() + item.slice(1)), // Capitalize first letter
+      });
       
     } catch (error) {
       console.error("Error:", error);
@@ -73,9 +78,13 @@ function FoodAnalyzer() {
 
           <h4>Detected Food Items:</h4>
           <ul>
-            {nutritionData.foodName?.map((food, index) => (
-              <li key={index}>{food}</li>
-            )) || <p>No food items detected.</p>}
+            {nutritionData.foodName?.length > 0 ? (
+              nutritionData.foodName.map((food, index) => (
+                <li key={index}>{food}</li>
+              ))
+            ) : (
+              <p>No food items detected.</p>
+            )}
           </ul>
 
           <h4>Daily Intake Reference:</h4>
