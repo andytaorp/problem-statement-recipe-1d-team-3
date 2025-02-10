@@ -12,7 +12,7 @@ function RecipeDetails({recipe}) {
             return;
         }
 
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/workouts/${recipe._id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/recipes/${recipe._id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
@@ -21,19 +21,19 @@ function RecipeDetails({recipe}) {
         const json = await response.json();
 
         if (response.ok) {
-            dispatch({type: 'DELETE_WORKOUTS', payload: json})
+            dispatch({type: 'DELETE_RECIPES', payload: json})
         }
     }
 
     return(
-        <div className="workout-details">
+        <div className="recipe-details">
             <h4>{recipe.title}</h4>
             <p><strong>Load (kg):</strong>{recipe.load}</p>
-            <p><strong>Reps:</strong>{workout.reps}</p>
-            <p>{formatDistanceToNow(new Date(workout.createdAt), {addSuffix: true})}</p>
+            <p><strong>Reps:</strong>{recipe.reps}</p>
+            <p>{formatDistanceToNow(new Date(recipe.createdAt), {addSuffix: true})}</p>
             <span className='material-symbols-outlined' onClick={handleClick}>delete</span>
         </div>
     )
 }
 
-export default WorkoutDetails;
+export default RecipeDetails;
