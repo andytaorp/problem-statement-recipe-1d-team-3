@@ -1,34 +1,34 @@
 import { createContext, useReducer } from "react";
 
-export const WorkoutsContext = createContext();
+export const RecipesContext = createContext();
 
-export const workoutsReducer = (state, action) => {
+export const recipesReducer = (state, action) => {
     switch(action.type) {
-        case 'SET_WORKOUTS':
+        case 'SET_RECIPES':
             return {
-                workouts: action.payload
+                recipes: action.payload
             }
-        case 'CREATE_WORKOUTS':
+        case 'CREATE_RECIPES':
             return {
-                workouts: [action.payload, ...state.workouts]
+                recipes: [action.payload, ...state.recipes]
             }
-        case 'DELETE_WORKOUTS':
+        case 'DELETE_RECIPES':
             return {
-                workouts: state.workouts.filter((workout) => workout._id !== action.payload._id)
+                recipes: state.recipes.filter((recipe) => recipe._id !== action.payload._id)
             }
         default:
             return state
     }
 }
 
-export function WorkoutsContextProvider({children}) {
-    const [state, dispatch] = useReducer(workoutsReducer, {
-        workouts: null
+export function RecipesContextProvider({children}) {
+    const [state, dispatch] = useReducer(recipesReducer, {
+        recipes: null
     });
 
     return(
-        <WorkoutsContext.Provider value={{...state, dispatch}}>
+        <RecipesContext.Provider value={{...state, dispatch}}>
             {children}
-        </WorkoutsContext.Provider>
+        </RecipesContext.Provider>
     )
 }
